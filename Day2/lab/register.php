@@ -1,6 +1,5 @@
 <?php
 
-
 $firstName  = htmlspecialchars($_POST['firstName']);
 $lastName   = htmlspecialchars($_POST['lastName']);
 $address    = htmlspecialchars($_POST['address']);
@@ -62,40 +61,21 @@ if (!empty($errors)) {
 }
 ?>
 <?php
-$greeting = $gender === "Male" ? "Hi Mr. $lastName" : "Hi Ms. $lastName";
+$data = $_POST;
+
+foreach ($data as $key => $value) {
+    if (is_array($value)) {
+        $data[$key] = implode("|", $value);
+    } else {
+        $data[$key] = str_replace(["\r", "\n"], " ", $value);
+    }
+}
+unset($data['confirmCode'], $data['realCode']);
+if (isset($data['skills']) && is_array($data['skills'])) {
+    $data['skills'] = implode("|", $data['skills']);
+}
+$result = implode(",", $data) . PHP_EOL;
+
+$result1 = file_put_contents("db.txt", $result, FILE_APPEND);
+echo "<a href='list.php'>show the Data</a>"
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Welcome</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
-
-<div class="container mt-5">
-  <div class="card shadow-lg">
-    <div class="card-header bg-primary text-white">
-      <h3><?= $greeting; ?></h3>
-    </div>
-    <div class="card-body">
-      <h5 class="card-title">Your Submitted Information</h5>
-      <table class="table table-bordered mt-3">
-        <tr><th>First Name</th><td><?= $firstName; ?></td></tr>
-        <tr><th>Last Name</th><td><?= $lastName; ?></td></tr>
-        <tr><th>Address</th><td><?= $address; ?></td></tr>
-        <tr><th>Country</th><td><?= $country; ?></td></tr>
-        <tr><th>Gender</th><td><?= $gender; ?></td></tr>
-        <tr><th>Skills</th><td><?= implode(", ", $skills);?></td></tr>
-        <tr><th>Username</th><td><?= $username; ?></td></tr>
-        <tr><th>Department</th><td><?= $department; ?></td></tr>
-      </table>
-    </div>
-    <div class="card-footer text-end">
-      <a href="form.php" class="btn btn-success">Back to Form</a>
-    </div>
-  </div>
-</div>
-
-</body>
-</html>

@@ -12,8 +12,9 @@
 <body class="bg-light">
 
 <div class="container mt-5">
+  <a class="btn btn-success" href="list.php">Show Data</a>
   <h2 class="mb-4">Registration Form</h2>
-  <form id="myForm" class="border p-4 bg-white rounded" action="home.php" method="POST">
+  <form id="myForm" class="border p-4 bg-white rounded" action="register.php" method="POST">
     <div class="mb-3">
       <label for="firstName" class="form-label">First Name</label>
       <input type="text" id="firstName" name="firstName" class="form-control" required>
